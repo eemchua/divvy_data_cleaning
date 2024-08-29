@@ -1,7 +1,7 @@
 # Data Cleaning Portfolio
 #### Created by: Ee Ming Chua
 #### Last Updated: Aug 29, 2024
-#### RDBMS Used: PostgreSQL
+#### RDBMS Used: PostgreSQL with minor usage of Excel
 #### Introduction: This portfolio documented my data cleaning approach and process using the raw trip data of [Divvy Bikes](https://divvybikes.com/) (a bikeshare system in Chicago) between August 2023 and July 2024.
 #### Data Info & Source: Click [here](https://divvybikes.com/system-data) to read more details about the data and to access the raw data.
 ---
@@ -208,6 +208,25 @@ ORDER BY
 #### Query result:
 >![image](https://github.com/user-attachments/assets/0c1cb69a-2a6d-4c72-9ab4-62358198752a)
 >![image](https://github.com/user-attachments/assets/a7756a43-aa4c-4d03-b978-7939cf7986d9)
-#### The average percentage of mising end_station_id is about 16.67% over the 12-month period, and the distribution of missing values by month is again fairly even, mirroring what we see for the start_station_id discussed right above.
+#### The average percentage of mising end_station_id is about 16.67% over the 12-month period, and the distribution of missing values by month is again fairly even, mirroring what we see for the start_station_id discussed right above. It is determined that all missing values will be removed.
 
+#### 2. Remove Missing Values
+```sql
+DELETE FROM trip_data
+WHERE 
+    start_station_id IS NULL 
+    OR end_station_id IS NULL 
+    OR start_station_name IS NULL
+    OR end_station_name IS NULL
+    OR start_lat IS NULL
+    OR start_lng IS NULL
+    OR end_lat IS NULL
+    OR end_lng IS NULL
+    OR rideable_type IS NULL
+    OR member_casual IS NULL
+    OR started_at IS NULL
+    OR ended_at IS NULL;
+```
+#### The query removed 1,474,366 missing values and the table returned with 4,241,313 rows.
+---
 
