@@ -75,7 +75,7 @@ WHERE ctid IN (
 #### The query removed 14 duplicates and the table returned with 5,715,679 rows.
 ---
 ### DATA CLEANING: NULL VALUES
-#### 1. Identify and Count Null Values
+#### 1. Identify and Count Missing Values
 ```sql
 SELECT 
     'rideable_type' AS column_name, COUNT(*) AS missing_count
@@ -159,8 +159,34 @@ SELECT
 FROM trip_data
 WHERE member_casual IS NULL;
 ```
-##### Query result:
->![image](https://github.com/user-attachments/assets/3cded0a5-d70c-4950-b847-6577acab683f)
+#### Query result:
+![image](https://github.com/user-attachments/assets/3cded0a5-d70c-4950-b847-6577acab683f)
+
+#### There are 3 identical groups of missing values:
+1. **end_lat and end_lng**: Percentage of missing data = (7,755 / 5,715,679) * 100 ≈ 0.14%
+2. **start_station_name and start_station_id**: Percentage of missing data = (947,020 / 5,715,679) * 100 ≈ 16.6%
+3. **end_station_name and end_station_id**: Percentage of missing data = (989,470 / 5,715,679) * 100 ≈ 17.3%
+
+#### The percentage of missing end_lat and end_lng values is very low (0.14%). Dropping these rows would not significantly impact the overall dataset size. Potential causes for missing end_lat and end_lng values include thefts, malfunction of trackers, and data collection errors. 
+
+#### end_station_name, end_station_id, start_station_name, and start_station_id have a significant amount of missing data (approximately 16-17%). Dropping such a large portion of the dataset could potentially skew the analysis. In such case, it would be crucial to discuss with the stakeholders and to determine the best apporach to move forward. Since I am not working with Divvy Bikes directly, for the purpose of this portfolio, the missing data will be dropped (again, not the best approach). However, before dropping the missing data, it is crucial to determine the distribution of missing values over time. If it is an consistent occurance every month, the missing data can be dropped; if it is not, collaboration with stakeholders will be needed.    
+
+#### For start_station_name and start_station_id, using start_station_id to run a query of missing values over time by month-
+```sql
+SELECT 
+    DATE_TRUNC('month', started_at) AS month,
+    COUNT(*) FILTER (WHERE start_station_id IS NULL) AS missing_count,
+    COUNT(*) AS total_count,
+    ROUND((COUNT(*) FILTER (WHERE start_station_id IS NULL)::float / COUNT(*) * 100)::numeric, 2) AS percentage_missing
+FROM 
+    trip_data
+GROUP BY 
+    month
+ORDER BY 
+    month;
+```
+#### Query result:
+![image](https://github.com/user-attachments/assets/0c1cb69a-2a6d-4c72-9ab4-62358198752a)
 
 
 
