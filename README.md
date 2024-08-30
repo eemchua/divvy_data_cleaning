@@ -229,4 +229,36 @@ WHERE
 ```
 #### The query removed 1,474,366 missing values and the table returned with 4,241,313 rows.
 ---
+### DATA CLEANING: DATA TYPES
+#### 1. Identify Data Types of All Columns
+```sql
+SELECT 
+    column_name, 
+    data_type
+FROM 
+    information_schema.columns
+WHERE 
+    table_name = 'trip_data';
+```
+#### Query result:
+>![image](https://github.com/user-attachments/assets/0004663f-9e15-4cbe-8201-d09c85b2ad01)
+#### As results showns, the current data types are appropriate for the dataset, and no conversions are needed.
+---
+### DATA CLEANING: INVALID ENTRIES
+#### 1. Check if ended_at is before started_at (which should not logically happen)
+```sql
+SELECT 
+    COUNT(*) AS inconsistent_entries
+FROM 
+    trip_data
+WHERE 
+    ended_at < started_at;
+```
+#### The query returned with 66 rows, and deleting them will not have significant impact the analysis -
+```sql
+DELETE FROM trip_data
+WHERE ended_at < started_at;
+```
+
+	
 
