@@ -244,7 +244,7 @@ WHERE
 >![image](https://github.com/user-attachments/assets/0004663f-9e15-4cbe-8201-d09c85b2ad01)
 #### As results showns, the current data types are appropriate for the dataset, and no conversions are needed.
 ---
-### DATA CLEANING: INVALID ENTRIES
+### DATA CLEANING: INVALID/INCORRECT ENTRIES
 #### 1. Check if ended_at timestamp is before started_at timestamp, which should not logically happen.
 ```sql
 SELECT 
@@ -267,7 +267,34 @@ FROM trip_data;
 ```
 #### The results show that the rideable_type column has 3 values: classic_bike, docked_bike, or electric_bike, which are all viable options for the column. Therefore, it is not likely that rideable_type column has invalid entries. Same method could be done for the member_casual column.
 
-#### 3. Other invalid entries may include rides that are too short/long in duration, or rides that are too far in distance. For this, it is essential to work with stakeholders to set the threshold for each scenario and to validate the affected entries. Below are queries to identify the potentially invalid entries -
+#### 3. Check data entries for standardized formatting (eg. Station Names are standardized)
+```sql
+SELECT DISTINCT start_station_name FROM trip_data;
+SELECT DISTINCT end_station_name FROM trip_data;
+```
+#### The quries provided lists of unique station names in the dataset, and they are all well-formatted and consistent. If there are any inconsistent entries, they can be updated to the standardized format using the example queries below -
+```sql
+-- 1. Convert to Title Case
+UPDATE trip_data
+SET start_station_name = INITCAP(start_station_name),
+    end_station_name = INITCAP(end_station_name);
+
+-- 2. Replace Abbreviations
+UPDATE trip_data
+SET start_station_name = REPLACE(start_station_name, 'St.', 'Street'),
+    end_station_name = REPLACE(end_station_name, 'St.', 'Street');
+
+-- 3. Trim Extra Spaces
+UPDATE trip_data
+SET start_station_name = TRIM(BOTH FROM start_station_name),
+    end_station_name = TRIM(BOTH FROM end_station_name);
+
+-- 4. Remove Duplicate Spaces
+UPDATE trip_data
+SET start_station_name = REGEXP_REPLACE(start_station_name, '\s+', ' '),
+    end_station_name = REGEXP_REPLACE(end_station_name, '\s+', ' ');
+```
+#### 4. Other invalid entries may include rides that are too short/long in duration, or rides that are too far in distance. For this, it is essential to work with stakeholders to set the threshold for each scenario and to validate the affected entries. Below are queries to identify the potentially invalid entries -
 ```sql
 -- Identifying Unusually Short Durations (eg. < 60 sec)
 SELECT *
@@ -295,7 +322,7 @@ SELECT *
 FROM distances
 WHERE distance_miles > 20;
 ```
-#### Without working with Divvy, these entries remain for this project.
+#### Not having to work with Divvy directly, these entries remain for this project.
 ---
 
 	
