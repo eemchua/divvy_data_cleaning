@@ -326,6 +326,6 @@ WHERE distance_miles > 20;
 ```
 #### Not having to work with Divvy directly, these entries remain for this project.
 ---
-### This is the end of data cleaning process, and the dataset is now ready to be analyzed.
+### This is the end of data cleaning process, and the dataset is now ready to be analyzed. More projects to come!
 	
 
