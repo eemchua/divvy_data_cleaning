@@ -1,6 +1,6 @@
-# Data Cleaning Portfolio
+# Data Cleaning Portfolio Using SQL
 #### Created by: Ee Ming Chua
-#### Last Updated: Aug 29, 2024
+#### Last Updated: Aug 30, 2024
 #### RDBMS Used: PostgreSQL with minor usage of Excel
 #### Introduction: This portfolio documented my data cleaning approach and process using the raw trip data of [Divvy Bikes](https://divvybikes.com/) (a bikeshare system in Chicago) between August 2023 and July 2024.
 #### Data Info & Source: Click [here](https://divvybikes.com/system-data) to read more details about the data and to access the raw data.
@@ -188,6 +188,7 @@ ORDER BY
 #### Query result:
 >![image](https://github.com/user-attachments/assets/535b9ee6-dd6d-448f-901b-8995ce3b1366)
 >![image](https://github.com/user-attachments/assets/1a09bf9a-fb54-4f12-9583-ae2a804728d7)
+
 #### The average percentage of mising start_station_id is about 15.86% over the 12-month period, and the distribution of missing values by month is fairly even. The lowest percentage of mising of 10.49% occurred during February, when the weather tends to be the coldest and bikeshare usage is the least popular; the percentage of mising of 20.27% occurred during June, when the weather tends to be the nicest and bikeshare usage is most common.
 
 #### Similarly, for end_station_name and end_station_id, using end_station_id to run a query of missing values over time by month -
@@ -208,6 +209,7 @@ ORDER BY
 #### Query result:
 >![image](https://github.com/user-attachments/assets/0c1cb69a-2a6d-4c72-9ab4-62358198752a)
 >![image](https://github.com/user-attachments/assets/a7756a43-aa4c-4d03-b978-7939cf7986d9)
+
 #### The average percentage of mising end_station_id is about 16.67% over the 12-month period, and the distribution of missing values by month is again fairly even, mirroring what we see for the start_station_id discussed right above. All missing values can be dropped.
 
 #### 2. Remove Missing Values
@@ -324,6 +326,6 @@ WHERE distance_miles > 20;
 ```
 #### Not having to work with Divvy directly, these entries remain for this project.
 ---
-
+### This is the end of data cleaning process, and the dataset is now ready to be analyzed.
 	
 
