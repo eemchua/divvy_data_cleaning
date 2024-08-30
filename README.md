@@ -245,7 +245,7 @@ WHERE
 #### As results showns, the current data types are appropriate for the dataset, and no conversions are needed.
 ---
 ### DATA CLEANING: INVALID ENTRIES
-#### 1. Check if ended_at is before started_at (which should not logically happen)
+#### Check if ended_at timestamp is before started_at timestamp, which should not logically happen.
 ```sql
 SELECT 
     COUNT(*) AS inconsistent_entries
@@ -259,6 +259,33 @@ WHERE
 DELETE FROM trip_data
 WHERE ended_at < started_at;
 ```
+#### Other invalid entries may include rides that are too short/long in duration, or rides that are too far in distance. For this, it is essential to work with stakeholders to set the threshold for each scenario and to validate the affected entries. Below are queries to identify the potentially invalid entries -
+```sql
+-- Identifying Unusually Short Durations (eg. < 60 sec)
+SELECT *
+FROM trip_data
+WHERE EXTRACT(EPOCH FROM (ended_at - started_at)) < 60;
 
+-- Identifying Unusually Long Durations (eg. > 1 day)
+SELECT *
+FROM trip_data
+WHERE EXTRACT(EPOCH FROM (ended_at - started_at)) > 86400;
+
+-- Identify Unusually Long Distance Rides (eg. > 20 miles)
+WITH distances AS (
+    SELECT *,
+           (3959 * acos(
+               LEAST(1.0, GREATEST(-1.0,
+                   cos(radians(start_lat)) * cos(radians(end_lat)) * 
+                   cos(radians(end_lng) - radians(start_lng)) + 
+                   sin(radians(start_lat)) * sin(radians(end_lat))
+               ))
+           )) AS distance_miles
+    FROM trip_data
+)
+SELECT *
+FROM distances
+WHERE distance_miles > 20;
+```
 	
 
