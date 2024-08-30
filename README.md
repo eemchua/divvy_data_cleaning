@@ -169,7 +169,7 @@ WHERE member_casual IS NULL;
 
 #### The percentage of missing end_lat and end_lng values is very low (0.14%). Dropping these rows would not significantly impact the overall dataset size. Potential causes for missing end_lat and end_lng values include thefts, malfunction of trackers, and data collection errors. The end_station_name, end_station_id, start_station_name, and start_station_id have a significant amount of missing data (approximately 16-17%). According to the company's website, users can pick up a divvy avaialble that is not at a docking station, and they also do not need to return to a docking station. This may explain the reason of the large missing data.
 
-#### Dropping such a large portion of the dataset could potentially skew the analysis. In such case, it would be crucial to discuss with the stakeholders and to determine the best apporach to retain as much data as possible (for example, the posibility of imputing the missing values using the closest station or ID based on their lat/lng data). Since I am not working with Divvy Bikes directly, and for the purpose of this portfolio, the missing data will be dropped (again, not the best approach). However, before dropping the missing data, it is crucial to determine the distribution of missing values over time. If it is a consistent occurance every month, the missing data can be dropped; if it is not, futher discussion with stakeholders will be needed.    
+#### Dropping such a large portion of the dataset could potentially skew the analysis. In such case, it would be crucial to discuss with the stakeholders and to determine the best apporach to retain as much data as possible (for example, the posibility of imputing the missing values using the closest station or ID based on their lat/lng data). Since I am not working with Divvy Bikes directly, and for the purpose of this portfolio, the missing data will be dropped (again, not the best approach). However, before dropping the missing data, it is crucial to determine the distribution of missing values over time. If it is a consistent occurance every month, the missing data can be dropped; if majority of the missing values is inconsistent over time, futher investigation with stakeholders is needed.    
 
 #### For start_station_name and start_station_id, using start_station_id to run a query of missing values over time by month -
 ```sql
@@ -208,7 +208,7 @@ ORDER BY
 #### Query result:
 >![image](https://github.com/user-attachments/assets/0c1cb69a-2a6d-4c72-9ab4-62358198752a)
 >![image](https://github.com/user-attachments/assets/a7756a43-aa4c-4d03-b978-7939cf7986d9)
-#### The average percentage of mising end_station_id is about 16.67% over the 12-month period, and the distribution of missing values by month is again fairly even, mirroring what we see for the start_station_id discussed right above. It is determined that all missing values will be removed.
+#### The average percentage of mising end_station_id is about 16.67% over the 12-month period, and the distribution of missing values by month is again fairly even, mirroring what we see for the start_station_id discussed right above. All missing values can be dropped.
 
 #### 2. Remove Missing Values
 ```sql
