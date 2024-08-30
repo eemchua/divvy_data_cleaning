@@ -160,7 +160,7 @@ FROM trip_data
 WHERE member_casual IS NULL;
 ```
 #### Query result:
->![image](https://github.com/user-attachments/assets/3cded0a5-d70c-4950-b847-6577acab683f)
+![image](https://github.com/user-attachments/assets/3cded0a5-d70c-4950-b847-6577acab683f)
 
 #### There are 3 identical groups of missing values:
 1. **end_lat and end_lng**: Percentage of missing data = (7,755 / 5,715,679) * 100 ≈ 0.14%
@@ -186,9 +186,8 @@ ORDER BY
     month;
 ```
 #### Query result:
->![image](https://github.com/user-attachments/assets/535b9ee6-dd6d-448f-901b-8995ce3b1366)
->![image](https://github.com/user-attachments/assets/1a09bf9a-fb54-4f12-9583-ae2a804728d7)
-
+![image](https://github.com/user-attachments/assets/535b9ee6-dd6d-448f-901b-8995ce3b1366)
+![image](https://github.com/user-attachments/assets/1a09bf9a-fb54-4f12-9583-ae2a804728d7)
 #### The average percentage of mising start_station_id is about 15.86% over the 12-month period, and the distribution of missing values by month is fairly even. The lowest percentage of mising of 10.49% occurred during February, when the weather tends to be the coldest and bikeshare usage is the least popular; the percentage of mising of 20.27% occurred during June, when the weather tends to be the nicest and bikeshare usage is most common.
 
 #### Similarly, for end_station_name and end_station_id, using end_station_id to run a query of missing values over time by month -
@@ -207,9 +206,8 @@ ORDER BY
 ```
 
 #### Query result:
->![image](https://github.com/user-attachments/assets/0c1cb69a-2a6d-4c72-9ab4-62358198752a)
->![image](https://github.com/user-attachments/assets/a7756a43-aa4c-4d03-b978-7939cf7986d9)
-
+![image](https://github.com/user-attachments/assets/0c1cb69a-2a6d-4c72-9ab4-62358198752a)
+![image](https://github.com/user-attachments/assets/a7756a43-aa4c-4d03-b978-7939cf7986d9)
 #### The average percentage of mising end_station_id is about 16.67% over the 12-month period, and the distribution of missing values by month is again fairly even, mirroring what we see for the start_station_id discussed right above. All missing values can be dropped.
 
 #### 2. Remove Missing Values
@@ -243,7 +241,7 @@ WHERE
     table_name = 'trip_data';
 ```
 #### Query result:
->![image](https://github.com/user-attachments/assets/0004663f-9e15-4cbe-8201-d09c85b2ad01)
+![image](https://github.com/user-attachments/assets/0004663f-9e15-4cbe-8201-d09c85b2ad01)
 #### As results showns, the current data types are appropriate for the dataset, and no conversions are needed.
 ---
 ### DATA CLEANING: INVALID/INCORRECT ENTRIES
