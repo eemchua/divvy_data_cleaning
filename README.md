@@ -245,7 +245,7 @@ WHERE
 #### As results showns, the current data types are appropriate for the dataset, and no conversions are needed.
 ---
 ### DATA CLEANING: INVALID ENTRIES
-#### Check if ended_at timestamp is before started_at timestamp, which should not logically happen.
+#### 1. Check if ended_at timestamp is before started_at timestamp, which should not logically happen.
 ```sql
 SELECT 
     COUNT(*) AS inconsistent_entries
@@ -254,12 +254,20 @@ FROM
 WHERE 
     ended_at < started_at;
 ```
-#### The query returned with 66 rows, and deleting them will not have significant impact the analysis -
+#### The query returned with 66 rows, and deleting them will not have significant impact the analysis
 ```sql
 DELETE FROM trip_data
 WHERE ended_at < started_at;
 ```
-#### Other invalid entries may include rides that are too short/long in duration, or rides that are too far in distance. For this, it is essential to work with stakeholders to set the threshold for each scenario and to validate the affected entries. Below are queries to identify the potentially invalid entries -
+#### 2. Identify unexpected values within value-specific columns (eg. rideable_type, member_casual)
+#### Take rideable_type as an example -
+```sql
+SELECT DISTINCT rideable_type
+FROM trip_data;
+```
+#### The results show that the rideable_type column has 3 values: classic_bike, docked_bike, or electric_bike, which are all viable options for the column. Therefore, it is not likely that rideable_type column has invalid entries. Same method could be done for the member_casual column.
+
+#### 3. Other invalid entries may include rides that are too short/long in duration, or rides that are too far in distance. For this, it is essential to work with stakeholders to set the threshold for each scenario and to validate the affected entries. Below are queries to identify the potentially invalid entries -
 ```sql
 -- Identifying Unusually Short Durations (eg. < 60 sec)
 SELECT *
@@ -287,5 +295,8 @@ SELECT *
 FROM distances
 WHERE distance_miles > 20;
 ```
+#### Without working with Divvy, these entries remain for this project.
+---
+
 	
 
